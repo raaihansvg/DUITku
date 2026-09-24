@@ -1,21 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 @import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Light theme — white/neutral ground, green + soft blue trust accents */
+  /* Light theme (Opan) */
   --background: #f6f9f8;
   --foreground: #0f2a25;
   --card: #ffffff;
   --card-foreground: #0f2a25;
   --muted: #eef4f2;
   --muted-foreground: #5b7169;
-  --primary: #0e9f6e; /* finance green */
+  --primary: #0e9f6e;
   --primary-hover: #0b8a5f;
   --primary-foreground: #ffffff;
-  --accent: #38bdf8; /* soft trust blue */
+  --accent: #38bdf8;
   --accent-soft: #e6f6ff;
   --border: #e2ebe8;
   --input: #ffffff;
@@ -25,10 +27,31 @@
   --danger-soft: #fef2f2;
   --danger-border: #fecaca;
   --radius: 16px;
+
+  /* Token tambahan untuk shadcn (Aji) */
+  --popover: #ffffff;
+  --popover-foreground: #0f2a25;
+  --secondary: #eef4f2;
+  --secondary-foreground: #0f2a25;
+  --accent-foreground: #0f2a25;
+  --destructive: #dc2626;
+  --chart-1: #0e9f6e;
+  --chart-2: #38bdf8;
+  --chart-3: #22c98a;
+  --chart-4: #0b8a5f;
+  --chart-5: #5b7169;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f2a25;
+  --sidebar-primary: #0e9f6e;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eef4f2;
+  --sidebar-accent-foreground: #0f2a25;
+  --sidebar-border: #e2ebe8;
+  --sidebar-ring: #0e9f6e;
 }
 
 .dark {
-  /* Dark theme — deep teal-charcoal ground, brighter accents for contrast */
+  /* Dark theme (Opan) */
   --background: #0a1512;
   --foreground: #e8f2ee;
   --card: #10201b;
@@ -48,6 +71,27 @@
   --danger-soft: #241414;
   --danger-border: #4c2222;
   --radius: 16px;
+
+  /* Token tambahan untuk shadcn (Aji) */
+  --popover: #10201b;
+  --popover-foreground: #e8f2ee;
+  --secondary: #16261f;
+  --secondary-foreground: #e8f2ee;
+  --accent-foreground: #04140e;
+  --destructive: #f87171;
+  --chart-1: #22c98a;
+  --chart-2: #56c9f5;
+  --chart-3: #34d99a;
+  --chart-4: #0e9f6e;
+  --chart-5: #8fa9a0;
+  --sidebar: #10201b;
+  --sidebar-foreground: #e8f2ee;
+  --sidebar-primary: #22c98a;
+  --sidebar-primary-foreground: #04140e;
+  --sidebar-accent: #16261f;
+  --sidebar-accent-foreground: #e8f2ee;
+  --sidebar-border: #1e2f28;
+  --sidebar-ring: #22c98a;
 }
 
 @theme inline {
@@ -55,13 +99,19 @@
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
   --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --color-accent-soft: var(--accent-soft);
+  --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-input-border: var(--input-border);
@@ -69,9 +119,40 @@
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
   --color-danger-border: var(--danger-border);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
   --radius-app: var(--radius);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
   --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Inter', system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 html {

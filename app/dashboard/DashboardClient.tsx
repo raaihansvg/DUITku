@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import { DashboardHeader } from '@/components/DashboardHeader'
 
@@ -18,7 +18,13 @@ function saveThemeCookie(theme: Theme) {
   document.cookie = `${THEME_COOKIE}=${theme}; expires=${expires}; path=/; SameSite=Lax`
 }
 
-export default function DashboardClient({ userName }: { userName: string }) {
+export default function DashboardClient({
+  userName,
+  children,
+}: {
+  userName: string
+  children: ReactNode
+}) {
   const router = useRouter()
   const [theme, setTheme] = useState<Theme>('light')
 
@@ -50,22 +56,11 @@ export default function DashboardClient({ userName }: { userName: string }) {
         onLogout={handleLogout}
       />
 
-      <main className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
-        <div className="mx-auto max-w-xl rounded-app border border-dashed border-border bg-card p-8 text-center">
-          <div className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full bg-primary/12 text-primary">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <path d="M20 6 9 17l-5-5" />
-            </svg>
-          </div>
-          <h2 className="text-xl font-bold text-foreground" style={{ fontFamily: 'var(--font-display)' }}>
-            Halo, {userName.split(' ')[0] || 'Mahasiswa'} 👋
-          </h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Autentikasi berhasil. Area transaksi, saldo, dan ringkasan keuangan
-            dikerjakan oleh anggota tim lain — bagian ini fokus pada login,
-            register, logout, dan preferensi tema.
-          </p>
-        </div>
+      <main className="mx-auto w-full max-w-6xl space-y-6 px-4 py-10 sm:px-6">
+        <h2 className="text-xl font-bold text-foreground" style={{ fontFamily: 'var(--font-display)' }}>
+          Halo, {userName.split(' ')[0] || 'Mahasiswa'} 👋
+        </h2>
+        {children}
       </main>
     </div>
   )
