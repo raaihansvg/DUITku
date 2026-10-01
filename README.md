@@ -37,7 +37,7 @@ Sebagai mahasiswa, saya ingin menetapkan anggaran pengeluaran setiap bulan dan m
 Berdasarkan fitur di atas, berikut adalah pembagian untuk 3 orang (1 PM dan 2 programmer):
 
 ### Opan – Project Manager (Fokus: Setup, Database, Layout, & Koordinasi)
-- Setup awal proyek (Next.js), environment, dan repository GitHub.
+- Setup awal proyek (Next.js), environment, dan repo.
 - Setup database PostgreSQL dan desain schema (tabel `users`, `transactions`, dan `budgets`). **(Pertemuan 5)**
 - Membuat layout dasar dan halaman dashboard sebagai kerangka bersama.
 - **SRS-007**: Memastikan isolasi data antar pengguna dan penggunaan query terparameterisasi berjalan di seluruh fitur, termasuk fitur budget. **(Pertemuan 5)**
