@@ -19,7 +19,7 @@ export async function GET(req: Request) {
   const month = parseInt(searchParams.get('month') ?? String(now.getMonth() + 1), 10)
   const year = parseInt(searchParams.get('year') ?? String(now.getFullYear()), 10)
 
-  if (month < 1 || month > 12 || year < 2000) {
+  if (!Number.isInteger(month) || !Number.isInteger(year) || month < 1 || month > 12 || year < 2000 || year > 2100) {
     return NextResponse.json({ error: 'Parameter bulan atau tahun tidak valid.' }, { status: 400 })
   }
 

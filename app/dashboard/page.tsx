@@ -1,10 +1,10 @@
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
-import { Wallet, TrendingUp, TrendingDown } from 'lucide-react'
 import { getSession } from '@/lib/session'
 import { parseTheme, THEME_COOKIE } from '@/lib/theme'
-import { SummaryCard } from '@/components/SummaryCard'
+import { SummarySection } from '@/components/SummarySection'
 import { BudgetCard } from '@/components/BudgetCard'
+import { TransactionsPanel } from '@/components/TransactionsPanel'
 import DashboardClient from './DashboardClient'
 
 export default async function DashboardPage() {
@@ -14,32 +14,16 @@ export default async function DashboardPage() {
   const jar = await cookies()
   const initialTheme = parseTheme(jar.get(THEME_COOKIE)?.value)
 
-  // INI PERHITUNGAN DUMMY, JANGAN LUPA DIHAPUS NANTI
-  const balance = 1500000
-  const totalIncome = 3000000
-  const totalExpense = 1500000
-
   return (
     <DashboardClient userName={session.name} initialTheme={initialTheme}>
-      {/* Ringkasan Keuangan (SRS-006) */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <SummaryCard title="Total Saldo" amount={balance} icon={Wallet} />
-        <SummaryCard
-          title="Total Pemasukan"
-          amount={totalIncome}
-          icon={TrendingUp}
-          type="income"
-        />
-        <SummaryCard
-          title="Total Pengeluaran"
-          amount={totalExpense}
-          icon={TrendingDown}
-          type="expense"
-        />
-      </div>
+      {/* Ringkasan Keuangan (SRS-006) — data dimuat via AJAX */}
+      <SummarySection />
 
       {/* Budget Bulanan (SRS-009) — data dimuat via AJAX */}
       <BudgetCard />
+
+      {/* Riwayat, filter, dan CRUD transaksi (SRS-004, 005, 008) */}
+      <TransactionsPanel />
     </DashboardClient>
   )
 }

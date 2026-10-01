@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { TrendingDown, AlertTriangle, CheckCircle2, RefreshCw, Trash2, PencilLine } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { TRANSACTION_CHANGED } from '@/lib/transaction-events'
 import { BudgetForm } from './BudgetForm'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -79,13 +80,12 @@ export function BudgetCard() {
     fetchBudget()
   }, [fetchBudget])
 
-  // Dengarkan event dari komponen transaksi (SRS-008 — dikerjakan Aji)
-  // Saat Aji selesai mengimplementasikan AJAX transaksi, ia cukup dispatch:
-  //   window.dispatchEvent(new Event('transaction:changed'))
+  // Dengarkan event dari TransactionsPanel (SRS-008) supaya budget terpakai
+  // ikut diperbarui setelah transaksi ditambah, diubah, atau dihapus
   useEffect(() => {
     const handler = () => fetchBudget()
-    window.addEventListener('transaction:changed', handler)
-    return () => window.removeEventListener('transaction:changed', handler)
+    window.addEventListener(TRANSACTION_CHANGED, handler)
+    return () => window.removeEventListener(TRANSACTION_CHANGED, handler)
   }, [fetchBudget])
 
   // ── Hapus budget ───────────────────────────────────────────────────────────

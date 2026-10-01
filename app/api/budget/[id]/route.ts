@@ -48,6 +48,15 @@ export async function PATCH(
     }
 
     return NextResponse.json(result.rows[0])
+  } catch (err) {
+    // Unique constraint violation — bulan tujuan sudah punya budget lain
+    if ((err as { code?: string }).code === '23505') {
+      return NextResponse.json(
+        { error: 'Budget untuk bulan tersebut sudah ada.' },
+        { status: 409 }
+      )
+    }
+    throw err
   } finally {
     client.release()
   }
