@@ -1,37 +1,35 @@
-"use client"
+'use client'
+
 import { useState, useEffect, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import { DashboardHeader } from '@/components/DashboardHeader'
+import { type Theme, THEME_COOKIE, THEME_MAX_AGE } from '@/lib/theme'
 
-type Theme = 'light' | 'dark'
-
-const THEME_COOKIE = 'duitku_theme'
-
-function getStoredTheme(): Theme {
-  if (typeof document === 'undefined') return 'light'
-  const match = document.cookie.match(/duitku_theme=(light|dark)/)
-  return (match?.[1] as Theme) ?? 'light'
-}
-
+/**
+ * Tulis cookie preferensi tema di browser.
+ * Dibaca kembali oleh server (layout.tsx) saat navigasi berikutnya
+ * sehingga class 'dark' langsung ada di <html> tanpa kedipan.
+ */
 function saveThemeCookie(theme: Theme) {
-  const expires = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString()
+  const expires = new Date(Date.now() + THEME_MAX_AGE * 1000).toUTCString()
   document.cookie = `${THEME_COOKIE}=${theme}; expires=${expires}; path=/; SameSite=Lax`
 }
 
 export default function DashboardClient({
   userName,
+  initialTheme,
   children,
 }: {
   userName: string
+  initialTheme: Theme
   children: ReactNode
 }) {
   const router = useRouter()
-  const [theme, setTheme] = useState<Theme>('light')
 
-  useEffect(() => {
-    setTheme(getStoredTheme())
-  }, [])
+  // Inisialisasi dari nilai server — tidak ada kedipan (FOUC)
+  const [theme, setTheme] = useState<Theme>(initialTheme)
 
+  // Sinkronkan class 'dark' di <html> setiap kali tema berubah di klien
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark')
   }, [theme])
@@ -57,7 +55,10 @@ export default function DashboardClient({
       />
 
       <main className="mx-auto w-full max-w-6xl space-y-6 px-4 py-10 sm:px-6">
-        <h2 className="text-xl font-bold text-foreground" style={{ fontFamily: 'var(--font-display)' }}>
+        <h2
+          className="text-xl font-bold text-foreground"
+          style={{ fontFamily: 'var(--font-display)' }}
+        >
           Halo, {userName.split(' ')[0] || 'Mahasiswa'} 👋
         </h2>
         {children}

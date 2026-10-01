@@ -24,7 +24,7 @@ export function DashboardHeader({ userName, theme, onToggleTheme, onLogout }: Pr
   return (
     <header className="sticky top-0 z-20 border-b border-border bg-card/85 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-        <Logo size={36} />
+        <Logo />
 
         <div className="flex items-center gap-2.5 sm:gap-3">
           <ThemeToggle theme={theme} onToggle={onToggleTheme} />
